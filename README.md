@@ -11,6 +11,7 @@ A simple Python CLI app to manage tasks stored in a JSON file.
 ## How to Run
 ```bash
 python app.py add "Buy groceries"
+python app.py add "Buy"
 python app.py list
 python app.py delete 1
 ```
@@ -28,3 +29,5 @@ docker run todo-cli
 ## Submission
 - GitHub Repo: [Your Repo Link]
 - Docker Image: `docker.io/yourusername/todo-cli:latest`
+
+
