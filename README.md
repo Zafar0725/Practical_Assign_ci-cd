@@ -1,16 +1,15 @@
-
-# To-Do CLI Application with CI/CD
+# 📝 To-Do CLI Application with CI/CD
 
 This repository contains a Python-based command-line To-Do List Manager application. It demonstrates a complete CI/CD workflow using GitHub Actions and Jenkins, including automated testing and Docker image deployment.
 
 ---
 
-## Project Structure
+## 📦 Project Structure
 ```
 ├── app.py                 # Main CLI application
 ├── requirements.txt       # Python dependencies
 ├── tests/                 # Unit tests
-│   └── test_app.py        # Contains 5+ test cases
+│   └── test_app.py        # Contains 7+ test cases
 ├── Dockerfile             # Docker image definition
 ├── Jenkinsfile            # Jenkins pipeline configuration
 └── .github/
@@ -20,14 +19,64 @@ This repository contains a Python-based command-line To-Do List Manager applicat
 
 ---
 
-## How to Build and Run
-### Run Locally
+## 🚀 Features
+- Add, list, and delete tasks via CLI
+- Persistent task storage using JSON
+- Unit tested with `unittest`
+- Dockerized for portability
+- CI/CD pipelines with GitHub Actions and Jenkins
+
+---
+
+## 🔧 Prerequisites
+- Python 3.10+
+- pip
+- Docker (for containerization)
+- Git
+
+---
+
+## ⚙️ Installation
 ```bash
+# Clone the repository
+git clone https://github.com/Zafar0725/Practical_Assign_ci-cd.git
+cd Practical_Assign_ci-cd
+
+# Install dependencies
 pip install -r requirements.txt
-python app.py list
 ```
 
-### Run with Docker
+---
+
+## 🧪 Testing
+Run all unit tests:
+```bash
+python -m unittest discover -s tests -v
+```
+
+Includes:
+- ✅ Valid test cases (add, delete, list, save/load)
+- ❌ Invalid test case to simulate failure
+
+To simulate a failing test:
+```python
+def test_failure_demo(self):
+    self.assertEqual(1, 2, "This test is designed to fail")
+```
+---
+
+## 🐳 Docker Usage
+### Build Image
+```bash
+docker build -t todo-cli-app .
+```
+
+### Run Container
+```bash
+docker run todo-cli-app list
+```
+
+### Pull from Docker Hub
 ```bash
 docker pull zafar0725/todo-cli:latest
 docker run zafar0725/todo-cli list
@@ -35,41 +84,59 @@ docker run zafar0725/todo-cli list
 
 ---
 
-## CI Pipeline with GitHub Actions
+## 🔁 CI/CD with GitHub Actions
 - Located at `.github/workflows/ci.yml`
-- Triggered on every `push` and `pull_request`
-- Includes:
-  - Dependency installation
-  - Unit testing (5+ test cases)
-  - Docker image build and push
+- Triggered on `push` and `pull_request`
+- Steps:
+  - Install dependencies
+  - Run unit tests
+  - Build and push Docker image
 
-### Test Scenarios
-- ✅ Success: All tests pass → pipeline proceeds
-- ❌ Failure: Any test fails → pipeline stops
-
+```
+Create `.github/workflows/python-app.yml`:
+```yaml
+name: Python application
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run tests
+      run: python -m unittest discover -s tests -v
+```
 ---
 
-## 🐳 Docker Image
-- Dockerfile builds the CLI app using Python 3.10 slim
-- Image is published to Docker Hub: `zafar0725/todo-cli:latest`
-
----
-
-## 🔧 Jenkins Pipeline
-- Jenkinsfile replicates GitHub Actions pipeline
+## 🧩 Jenkins Pipeline
+- Defined in `Jenkinsfile`
 - Stages:
-  - Build: Install dependencies
-  - Test: Run unit tests
-  - Docker Build & Push: Publish image to Docker Hub
+  - Install dependencies
+  - Run tests
+  - Build and push Docker image
 
 ### Jenkins Setup
-1. Install Python, pip, Docker, and Git on Jenkins agent
-2. Add Docker credentials in Jenkins (`docker-creds`)
-3. Configure Jenkins job to pull from GitHub repo
-4. Use `Pipeline from SCM` with `Jenkinsfile` in root
+1. Install Python, pip, Docker, Git on Jenkins agent
+2. Add Docker credentials (`docker-creds`) in Jenkins
+3. Create a Pipeline job using `Pipeline from SCM`
+4. Point to `Jenkinsfile` in repo root
 
 ---
 
-## 📌 Submission
-- GitHub Repository: https://github.com/Zafar0725/Practical_Assign_ci-cd
-- All requirements from the assignment are implemented and validated.
+## 🛠️ Troubleshooting
+- Ensure `__pycache__/` is ignored in `.gitignore`
+- Use `sys.path.insert(...)` in tests to fix import errors
+- Validate Docker installation and permissions
+
+---
+
+## 🤝 Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request
