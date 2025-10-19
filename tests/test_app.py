@@ -32,6 +32,10 @@ class TestTodoApp(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(self.test_file):
             os.remove(self.test_file)
+    def test_list_tasks(self):
+        save_tasks(["Task A", "Task B"])
+        tasks = load_tasks()
+        self.assertEqual(tasks, ["Task A", "Task B"])
 
 if __name__ == '__main__':
     unittest.main()
