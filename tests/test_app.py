@@ -52,8 +52,8 @@ class TestTodoApp(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(self.test_file):
             os.remove(self.test_file)
-    def test_failure_demo(self):
-        self.assertEqual(1, 2, "This test is designed to fail")
+    #def test_failure_demo(self):
+    #    self.assertEqual(1, 2, "This test is designed to fail")
 
 if __name__ == '__main__':
     unittest.main()
