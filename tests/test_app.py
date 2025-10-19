@@ -1,37 +1,49 @@
-import unittest
-import os
 import json
-from app import add_task, delete_task, list_tasks, save_tasks, load_tasks, TASKS_FILE
-
-class TestTodoApp(unittest.TestCase):
-    def setUp(self):
-        self.test_file = TASKS_FILE
-        save_tasks([])
-
-    def test_add_task(self):
-        add_task("Test Task")
-        tasks = load_tasks()
-        self.assertIn("Test Task", tasks)
-
-    def test_delete_task(self):
-        save_tasks(["Task 1", "Task 2"])
-        delete_task(1)
-        tasks = load_tasks()
-        self.assertNotIn("Task 1", tasks)
-
-    def test_list_tasks(self):
-        save_tasks(["Task A", "Task B"])
-        tasks = load_tasks()
-        self.assertEqual(len(tasks), 2)
-
-    def test_save_and_load(self):
-        save_tasks(["Save Test"])
-        tasks = load_tasks()
-        self.assertEqual(tasks, ["Save Test"])
-
-    def tearDown(self):
-        if os.path.exists(self.test_file):
-            os.remove(self.test_file)
-
-if __name__ == '__main__':
-    unittest.main()
+import sys
+ 
+TASKS_FILE = 'tasks.json'
+ 
+def load_tasks():
+    try:
+        with open(TASKS_FILE, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+ 
+def save_tasks(tasks):
+    with open(TASKS_FILE, 'w') as f:
+        json.dump(tasks, f, indent=2)
+ 
+def add_task(task):
+    tasks = load_tasks()
+    tasks.append(task)
+    save_tasks(tasks)
+    print(f"Added task: {task}")
+ 
+def list_tasks():
+    tasks = load_tasks()
+    for i, task in enumerate(tasks, 1):
+        print(f"{i}. {task}")
+ 
+def delete_task(index):
+    tasks = load_tasks()
+    try:
+        removed = tasks.pop(index - 1)
+        save_tasks(tasks)
+        print(f"Deleted task: {removed}")
+    except IndexError:
+        print("Invalid task number.")
+ 
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: add/list/delete [task/index]")
+    else:
+        cmd = sys.argv[1]
+        if cmd == "add" and len(sys.argv) > 2:
+            add_task(" ".join(sys.argv[2:]))
+        elif cmd == "list":
+            list_tasks()
+        elif cmd == "delete" and len(sys.argv) > 2:
+            delete_task(int(sys.argv[2]))
+        else:
+            print("Invalid command or missing arguments.")

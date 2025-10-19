@@ -50,7 +50,7 @@ docker run zafar0725/todo-cli list
 ---
 
 ## 🐳 Docker Image
-- Dockerfile builds the CLI app using Python 3.11 
+- Dockerfile builds the CLI app using Python 3.10 slim
 - Image is published to Docker Hub: `zafar0725/todo-cli:latest`
 
 ---
